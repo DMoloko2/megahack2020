@@ -16,37 +16,7 @@ const clickhouse = new ClickHouse({
         enable_http_compression                 : 0,
         database                                : 'my_database_name',
     },
-
-    // This object merge with request params (see request lib docs)
-    // reqParams: {
-    // }
 });
-// const queries = [
-//     'DROP TABLE IF EXISTS session_temp',
-//
-//     `CREATE TABLE session_temp (
-//         date Date,
-//         time DateTime,
-//         mark String,
-//         ips Array(UInt32),
-//         queries Nested (
-//             act String,
-//             id UInt32
-//         )
-//     )
-//     ENGINE=MergeTree(date, (mark, time), 8192)`,
-//
-//     'OPTIMIZE TABLE ukit.loadstat PARTITION 201807 FINAL'
-// ];
-//
-// async function main() {
-//   for(const query of queries) {
-//       const r = await clickhouse.query(query).toPromise();
-//
-//       console.log(query, r);
-//   }
-// }
-// main()
 var  i = 0
 var dataSender = []
 clickhouse.query(`SELECT DISTINCT number FROM system.numbers`).stream()

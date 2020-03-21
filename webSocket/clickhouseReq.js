@@ -47,30 +47,32 @@ const clickhouse = new ClickHouse({
 //   }
 // }
 // main()
+var  i = 0
+var dataSender = []
 clickhouse.query(`SELECT DISTINCT number FROM system.numbers`).stream()
-    .on('data', function(data) {
-        const stream = this;
-        if(exports.i == 98){
+.on('data', function(data) {
+    const stream = this;
+    dataSender[i] = data
+      if (i == 98 ) {
+        // global.wss.clients.forEach(function each(client) {
+        //   if (client.readyState === global.WebSocket.OPEN) {
+        //     dataSender = JSON.stringify(dataSender)
+        //     client.send(dataSender);
+        //   }
+        // });
+console.log(data);
+        console.log(dataSender);
         stream.pause();
-        //dataSender = JSON.stringify(dataSender)
-
-
+        i = 0
         setTimeout(() => {
-                stream.resume();
+            stream.resume();
         }, 1000);
-        }
-
-
-
-    })
+      }
+      i++
+})
     .on('error', err => {
         console.log(err);
     })
     .on('end', () => {
 
     });
-    // global.wss.clients.forEach(function each(client) {
-    //   if (client.readyState === global.WebSocket.OPEN) {
-    //     // client.send(dataSender);
-    //   }
-    // });

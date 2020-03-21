@@ -1,7 +1,3 @@
-
-<script type="text/javascript" src="/javascripts/clentWS.js">
-
-</script>
 <!DOCTYPE html>
 <html lang="ru">
 	<head>
@@ -83,35 +79,42 @@
 					<span>Hub</span>
 				</a>
 				<div class="list-group list-group-flush">
-					<a href="#" class="list-group-item">
+					<a id="type1" class="list-group-item">
 						Давление
 					</a>
-					<a href="#" class="list-group-item">
+					<a id="type2" class="list-group-item">
 						Влажность
 					</a>
-					<a href="#" class="list-group-item">
+					<a id="type3" class="list-group-item">
 						Температура помещения
 					</a>
-					<a href="#" class="list-group-item">
+					<a id="type4" class="list-group-item">
 						Температура рабочей зоны
 					</a>
-					<a href="#" class="list-group-item">
+					<a id="type5" class="list-group-item">
 						Уровень pH
 					</a>
-					<a href="#" class="list-group-item">
+					<a id="type6" class="list-group-item">
 						Масса
 					</a>
-					<a href="#" class="list-group-item">
+					<a id="type7" class="list-group-item">
 						Расход жидкости
 					</a>
-					<a href="#" class="list-group-item">
+					<a id="type8" class="list-group-item">
 						Уровень CO2
 					</a>
 				</div>
 			</div>
 		</header>
 		<main class="pt-5 mx-lg-5">
-
+			<div class="mt-5">
+				<canvas id="chart1"></canvas>
+				<br>
+				<button id="btnAdd" class="btn">Add button</button>
+				<button id="btnDelete" class="btn">Delete button</button>
+				<button id="btnDoble" class="btn">Double button</button>
+				<!-- <button id="update">update</button> -->
+			</div>
 		</main>
 		<footer class="page-footer text-center font-small darken-2 mt-4 wow fadeIn">
 			<hr class="my-4">
@@ -155,25 +158,26 @@
 							</p>
 						</div>
 						<form id="pressure_form" method="POST" action="#!">
-							<select class="browser-default custom-select">
+							<select class="browser-default custom-select" name="dat">
 								<option selected>Выберите датчик</option>
-								<option value="1">Первый</option>
-								<option value="2">Второй</option>
-								<option value="3">Третий</option>
-								<option value="4">Четвёртый</option>
-								<option value="5">Пятый</option>
-								<option value="6">Шестой</option>
-								<option value="7">Седьмой</option>
-								<option value="8">Восьмой</option>
-								<option value="9">Девятый</option>
-								<option value="10">Десятый</option>
-								<option value="11">Одиннадцатый</option>
-								<option value="12">Двенадцатый</option>
+								<option value="0">Первый</option>
+								<option value="1">Второй</option>
+								<option value="2">Третий</option>
+								<option value="3">Четвёртый</option>
+								<option value="4">Пятый</option>
+								<option value="5">Шестой</option>
+								<option value="6">Седьмой</option>
+								<option value="7">Восьмой</option>
+								<option value="8">Девятый</option>
+								<option value="9">Десятый</option>
+								<option value="10">Одиннадцатый</option>
+								<option value="11">Двенадцатый</option>
 							</select>
 							<div class="md-form">
-								<input type="number" id="numberExample" class="form-control" required>
-								<label for="numberExample">Введите значение</label>
+								<input type="number" id="numberExample0" class="form-control" name="value" required>
+								<label for="numberExample0">Введите значение</label>
 							</div>
+							<input type="hidden" name="par" value="0">
 						</form>
 					</div>
 					<div class="modal-footer justify-content-center">
@@ -201,25 +205,26 @@
 							</p>
 						</div>
 						<form id="humidity_form" method="POST" action="#!">
-							<select class="browser-default custom-select">
+							<select class="browser-default custom-select" name="dat">
 								<option selected>Выберите датчик</option>
-								<option value="1">Первый</option>
-								<option value="2">Второй</option>
-								<option value="3">Третий</option>
-								<option value="4">Четвёртый</option>
-								<option value="5">Пятый</option>
-								<option value="6">Шестой</option>
-								<option value="7">Седьмой</option>
-								<option value="8">Восьмой</option>
-								<option value="9">Девятый</option>
-								<option value="10">Десятый</option>
-								<option value="11">Одиннадцатый</option>
-								<option value="12">Двенадцатый</option>
+								<option value="0">Первый</option>
+								<option value="1">Второй</option>
+								<option value="2">Третий</option>
+								<option value="3">Четвёртый</option>
+								<option value="4">Пятый</option>
+								<option value="5">Шестой</option>
+								<option value="6">Седьмой</option>
+								<option value="7">Восьмой</option>
+								<option value="8">Девятый</option>
+								<option value="9">Десятый</option>
+								<option value="10">Одиннадцатый</option>
+								<option value="11">Двенадцатый</option>
 							</select>
 							<div class="md-form">
-								<input type="number" id="numberExample" class="form-control" required>
-								<label for="numberExample">Введите значение</label>
+								<input type="number" id="numberExample1" class="form-control" name="value" required>
+								<label for="numberExample1">Введите значение</label>
 							</div>
+							<input type="hidden" name="par" value="1">
 						</form>
 					</div>
 					<div class="modal-footer justify-content-center">
@@ -247,25 +252,26 @@
 							</p>
 						</div>
 						<form id="room_temperature_form" method="POST" action="#!">
-							<select class="browser-default custom-select">
+							<select class="browser-default custom-select" name="dat">
 								<option selected>Выберите датчик</option>
-								<option value="1">Первый</option>
-								<option value="2">Второй</option>
-								<option value="3">Третий</option>
-								<option value="4">Четвёртый</option>
-								<option value="5">Пятый</option>
-								<option value="6">Шестой</option>
-								<option value="7">Седьмой</option>
-								<option value="8">Восьмой</option>
-								<option value="9">Девятый</option>
-								<option value="10">Десятый</option>
-								<option value="11">Одиннадцатый</option>
-								<option value="12">Двенадцатый</option>
+								<option value="0">Первый</option>
+								<option value="1">Второй</option>
+								<option value="2">Третий</option>
+								<option value="3">Четвёртый</option>
+								<option value="4">Пятый</option>
+								<option value="5">Шестой</option>
+								<option value="6">Седьмой</option>
+								<option value="7">Восьмой</option>
+								<option value="8">Девятый</option>
+								<option value="9">Десятый</option>
+								<option value="10">Одиннадцатый</option>
+								<option value="11">Двенадцатый</option>
 							</select>
 							<div class="md-form">
-								<input type="number" id="numberExample" class="form-control" required>
-								<label for="numberExample">Введите значение</label>
+								<input type="number" id="numberExample2" class="form-control" name="value" required>
+								<label for="numberExample2">Введите значение</label>
 							</div>
+							<input type="hidden" name="par" value="2">
 						</form>
 					</div>
 					<div class="modal-footer justify-content-center">
@@ -293,25 +299,26 @@
 							</p>
 						</div>
 						<form id="temperature_working_area_form" method="POST" action="#!">
-							<select class="browser-default custom-select">
+							<select class="browser-default custom-select" name="dat">
 								<option selected>Выберите датчик</option>
-								<option value="1">Первый</option>
-								<option value="2">Второй</option>
-								<option value="3">Третий</option>
-								<option value="4">Четвёртый</option>
-								<option value="5">Пятый</option>
-								<option value="6">Шестой</option>
-								<option value="7">Седьмой</option>
-								<option value="8">Восьмой</option>
-								<option value="9">Девятый</option>
-								<option value="10">Десятый</option>
-								<option value="11">Одиннадцатый</option>
-								<option value="12">Двенадцатый</option>
+								<option value="0">Первый</option>
+								<option value="1">Второй</option>
+								<option value="2">Третий</option>
+								<option value="3">Четвёртый</option>
+								<option value="4">Пятый</option>
+								<option value="5">Шестой</option>
+								<option value="6">Седьмой</option>
+								<option value="7">Восьмой</option>
+								<option value="8">Девятый</option>
+								<option value="9">Десятый</option>
+								<option value="10">Одиннадцатый</option>
+								<option value="11">Двенадцатый</option>
 							</select>
 							<div class="md-form">
-								<input type="number" id="numberExample" class="form-control" required>
-								<label for="numberExample">Введите значение</label>
+								<input type="number" id="numberExample3" class="form-control" name="value" required>
+								<label for="numberExample3">Введите значение</label>
 							</div>
+							<input type="hidden" name="par" value="3">
 						</form>
 					</div>
 					<div class="modal-footer justify-content-center">
@@ -339,25 +346,26 @@
 							</p>
 						</div>
 						<form id="ph_form" method="POST" action="#!">
-							<select class="browser-default custom-select">
+							<select class="browser-default custom-select" name="dat">
 								<option selected>Выберите датчик</option>
-								<option value="1">Первый</option>
-								<option value="2">Второй</option>
-								<option value="3">Третий</option>
-								<option value="4">Четвёртый</option>
-								<option value="5">Пятый</option>
-								<option value="6">Шестой</option>
-								<option value="7">Седьмой</option>
-								<option value="8">Восьмой</option>
-								<option value="9">Девятый</option>
-								<option value="10">Десятый</option>
-								<option value="11">Одиннадцатый</option>
-								<option value="12">Двенадцатый</option>
+								<option value="0">Первый</option>
+								<option value="1">Второй</option>
+								<option value="2">Третий</option>
+								<option value="3">Четвёртый</option>
+								<option value="4">Пятый</option>
+								<option value="5">Шестой</option>
+								<option value="6">Седьмой</option>
+								<option value="7">Восьмой</option>
+								<option value="8">Девятый</option>
+								<option value="9">Десятый</option>
+								<option value="10">Одиннадцатый</option>
+								<option value="11">Двенадцатый</option>
 							</select>
 							<div class="md-form">
-								<input type="number" id="numberExample" class="form-control" required>
-								<label for="numberExample">Введите значение</label>
+								<input type="number" id="numberExample4" class="form-control" name="value" required>
+								<label for="numberExample4">Введите значение</label>
 							</div>
+							<input type="hidden" name="par" value="4">
 						</form>
 					</div>
 					<div class="modal-footer justify-content-center">
@@ -385,25 +393,26 @@
 							</p>
 						</div>
 						<form id="weight_form" method="POST" action="#!">
-							<select class="browser-default custom-select">
+							<select class="browser-default custom-select" name="dat">
 								<option selected>Выберите датчик</option>
-								<option value="1">Первый</option>
-								<option value="2">Второй</option>
-								<option value="3">Третий</option>
-								<option value="4">Четвёртый</option>
-								<option value="5">Пятый</option>
-								<option value="6">Шестой</option>
-								<option value="7">Седьмой</option>
-								<option value="8">Восьмой</option>
-								<option value="9">Девятый</option>
-								<option value="10">Десятый</option>
-								<option value="11">Одиннадцатый</option>
-								<option value="12">Двенадцатый</option>
+								<option value="0">Первый</option>
+								<option value="1">Второй</option>
+								<option value="2">Третий</option>
+								<option value="3">Четвёртый</option>
+								<option value="4">Пятый</option>
+								<option value="5">Шестой</option>
+								<option value="6">Седьмой</option>
+								<option value="7">Восьмой</option>
+								<option value="8">Девятый</option>
+								<option value="9">Десятый</option>
+								<option value="10">Одиннадцатый</option>
+								<option value="11">Двенадцатый</option>
 							</select>
 							<div class="md-form">
-								<input type="number" id="numberExample" class="form-control" required>
-								<label for="numberExample">Введите значение</label>
+								<input type="number" id="numberExample5" class="form-control" name="value" required>
+								<label for="numberExample5">Введите значение</label>
 							</div>
+							<input type="hidden" name="par" value="5">
 						</form>
 					</div>
 					<div class="modal-footer justify-content-center">
@@ -430,25 +439,26 @@
 								Здесь вы можете изменить пороговые значения расхода жидкости
 						</div>
 						<form id="flow_rate_form" method="POST" action="#!">
-							<select class="browser-default custom-select">
+							<select class="browser-default custom-select" name="dat">
 								<option selected>Выберите датчик</option>
-								<option value="1">Первый</option>
-								<option value="2">Второй</option>
-								<option value="3">Третий</option>
-								<option value="4">Четвёртый</option>
-								<option value="5">Пятый</option>
-								<option value="6">Шестой</option>
-								<option value="7">Седьмой</option>
-								<option value="8">Восьмой</option>
-								<option value="9">Девятый</option>
-								<option value="10">Десятый</option>
-								<option value="11">Одиннадцатый</option>
-								<option value="12">Двенадцатый</option>
+								<option value="0">Первый</option>
+								<option value="1">Второй</option>
+								<option value="2">Третий</option>
+								<option value="3">Четвёртый</option>
+								<option value="4">Пятый</option>
+								<option value="5">Шестой</option>
+								<option value="6">Седьмой</option>
+								<option value="7">Восьмой</option>
+								<option value="8">Девятый</option>
+								<option value="9">Десятый</option>
+								<option value="10">Одиннадцатый</option>
+								<option value="11">Двенадцатый</option>
 							</select>
 							<div class="md-form">
-								<input type="number" id="numberExample" class="form-control" required>
-								<label for="numberExample">Введите значение</label>
+								<input type="number" id="numberExample6" class="form-control" name="value" required>
+								<label for="numberExample6">Введите значение</label>
 							</div>
+							<input type="hidden" name="par" value="6">
 						</form>
 					</div>
 					<div class="modal-footer justify-content-center">
@@ -476,25 +486,26 @@
 							</p>
 						</div>
 						<form id="CO2_form" method="POST" action="#!">
-							<select class="browser-default custom-select">
+							<select class="browser-default custom-select" name="dat">
 								<option selected>Выберите датчик</option>
-								<option value="1">Первый</option>
-								<option value="2">Второй</option>
-								<option value="3">Третий</option>
-								<option value="4">Четвёртый</option>
-								<option value="5">Пятый</option>
-								<option value="6">Шестой</option>
-								<option value="7">Седьмой</option>
-								<option value="8">Восьмой</option>
-								<option value="9">Девятый</option>
-								<option value="10">Десятый</option>
-								<option value="11">Одиннадцатый</option>
-								<option value="12">Двенадцатый</option>
+								<option value="0">Первый</option>
+								<option value="1">Второй</option>
+								<option value="2">Третий</option>
+								<option value="3">Четвёртый</option>
+								<option value="4">Пятый</option>
+								<option value="5">Шестой</option>
+								<option value="6">Седьмой</option>
+								<option value="7">Восьмой</option>
+								<option value="8">Девятый</option>
+								<option value="9">Десятый</option>
+								<option value="10">Одиннадцатый</option>
+								<option value="11">Двенадцатый</option>
 							</select>
 							<div class="md-form">
-								<input type="number" id="numberExample" class="form-control" required>
-								<label for="numberExample">Введите значение</label>
+								<input type="number" id="numberExample7" class="form-control" name="value" required>
+								<label for="numberExample7">Введите значение</label>
 							</div>
+							<input type="hidden" name="par" value="7">
 						</form>
 					</div>
 					<div class="modal-footer justify-content-center">
@@ -510,6 +521,11 @@
 		<script type="text/javascript" src="js/popper.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/mdb.min.js"></script>
+		<script type="text/javascript" src="/javascripts/clentWS.js"></script>
+		<script src="moment.min.js"></script>
+		<script src="Chart.min.js"></script>
+		<script src="utils.js"></script>
+		<script type="text/javascript" src="plotscript.js"></script>
 		<script type="text/javascript" src="js/js.js"></script>
 	</body>
 </html>

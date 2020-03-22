@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include=".\client_cpp_sdk_tutorial.cpp" />
+    <ClCompile Include=".\sampleclient.cpp" />
+    <ClCompile Include=".\samplesubscription.cpp" />
+    <ClCompile Include=".\configuration.cpp" />
+    <ClCompile Include="..\..\..\examples\utilities\shutdown.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include=".\configuration.h" />
+    <ClInclude Include=".\sampleclient.h" />
+    <ClInclude Include=".\samplesubscription.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\examples\client_gettingstarted\sampleconfig.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Config">
+      <UniqueIdentifier>{BA6B7F7F-8C6B-3F67-AA64-CC73D38DC81E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{2C8ACDDF-A71C-3824-8EA8-6D71CA99F0DB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{65798CD5-176E-39BE-980C-8C2C160B8FBF}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,4 +1,18 @@
 const { ClickHouse } = require('clickhouse');
+class DataSender {
+constructor(){
+  this.pressure = new Array (12);
+  this.humidity =  new Array (12);
+  this.room_temperature =  new Array (12);
+  this.temperature_working_area = new Array (12);
+  this.ph = new Array (12);
+  this.weight =  new Array (12);
+  this.flow_rate = new Array (12);
+  this.CO2 =  new Array (12);
+}
+
+}
+let typee = ["pressure","humidity","room_temperature","temperature_working_area","ph","weight","flow_rate","CO2"]
 const clickhouse = new ClickHouse({
     url: 'http://localhost',
     port: 8123,
@@ -17,32 +31,60 @@ const clickhouse = new ClickHouse({
         database                                : 'my_database_name',
     },
 });
-var  i = 0
-var dataSender = []
-clickhouse.query(`SELECT DISTINCT number FROM system.numbers`).stream()
-.on('data', function(data) {
-    const stream = this;
-    dataSender[i] = data
-      if (i == 98 ) {
-        // global.wss.clients.forEach(function each(client) {
-        //   if (client.readyState === global.WebSocket.OPEN) {
-        //     dataSender = JSON.stringify(dataSender)
-        //     client.send(dataSender);
-        //   }
-        // });
-console.log(data);
-        console.log(dataSender);
-        stream.pause();
-        i = 0
-        setTimeout(() => {
-            stream.resume();
-        }, 1000);
-      }
-      i++
-})
-    .on('error', err => {
-        console.log(err);
-    })
-    .on('end', () => {
+exports.getDateRealTime = function () {
+  var  i = 0
+  let dataSender = new DataSender()
+  clickhouse.query(`SELECT toUnixTimestamp(timestamp) AS unix_timestamp, typee, param, value, prev FROM test.opc`).stream()
+  .on('data', function(data) {
+      const stream = this;
+      // console.log(data);
+      dataSender[typee[data.typee]][data.param] = {y: data.value, t: data.unix_timestamp}
+      let val = validation(dataSender)
+        if(data.typee  ==  0){
+          if (val) {
+            global.wss.clients.forEach(function each(client) {
+              if (client.readyState === global.WebSocket.OPEN) {
+                console.log(dataSender);
+                let mes = JSON.stringify(dataSender)
+                client.send(mes);
+                            dataSender = new DataSender()
+              }
+            });
+            stream.pause();
+            setTimeout(() => {
+                stream.resume();
+            }, 1000);
+          }
+}
 
-    });
+  })
+      .on('error', err => {
+          console.log(err);
+      })
+      .on('end', () => {
+
+      });
+}
+exports.getPreviousValue = function (dateLow,dateHigh,cb) {
+  clickhouse.query(query).exec(function (err, rows) {
+        cb(rows)
+});
+}
+function validation(data) {
+  let d = 0;
+  // for (j in data) {
+    for (var i = 0; i < data.pressure.length; i++) {
+      if(data.pressure[i] === undefined){
+        return false
+      }
+      else {
+        d++
+      }
+    }
+  // }
+console.log(d);
+if (d == 12){
+console.log('true');
+return true
+}
+}

@@ -1,8 +1,10 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+var init = require('./init')
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var ClickHouse = require('./clickhouseReq');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 global.WebSocket = require('ws');
@@ -12,8 +14,6 @@ wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);
   });
-
-  ws.send('something');
 });
 var app = express();
 
@@ -45,5 +45,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+init.getPorogValue(function (data) {
+  global.porogValue = data
+})
+ClickHouse.getDateRealTime()
 module.exports = app;
